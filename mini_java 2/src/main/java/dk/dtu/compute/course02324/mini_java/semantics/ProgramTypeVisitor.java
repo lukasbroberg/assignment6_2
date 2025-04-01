@@ -80,6 +80,11 @@ public class ProgramTypeVisitor extends ProgramVisitor {
                 checking that the expression is of type integer. If not,
                 the code must add a problem to the problem list.
          */
+        //Validates the while loop's expression is of type Integer
+        var expression = typeMapping.get(whileLoop);
+        if(!(expression instanceof IntLiteral)){
+            problems.add("Expression is not of type integer");
+        }
 
         whileLoop.statement.accept(this);
     }

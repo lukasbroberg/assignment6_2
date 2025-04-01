@@ -114,6 +114,15 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
                 looking them up in the values Map.
          */
 
+        var expression = values.get(whileLoop.expression);
+        while(expression.intValue()>=0){
+            whileLoop.statement.accept(this);
+            whileLoop.expression.accept(this);
+            expression = values.get(whileLoop.expression); //reassign expression
+        }
+
+
+
     }
 
     @Override

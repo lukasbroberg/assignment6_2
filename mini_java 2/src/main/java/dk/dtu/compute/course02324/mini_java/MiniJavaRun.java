@@ -188,7 +188,7 @@ public class MiniJavaRun {
                                 new Assignment(
                                         new Var("i"),
                                         new OperatorExpression(
-                                                Operator.MINUS2,
+                                                MINUS2,
                                                 new FloatLiteral(2.75f),
                                                 new Assignment(
                                                         new Var("i"),

@@ -21,15 +21,14 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     private Function<List<Number>, Number> plus1int =
             args -> {
                 int arg1 = args.get(0).intValue();
-                int arg2 = args.get(1).intValue();
-                return arg1 + arg2;
+//                int arg2 = args.get(1).intValue();
+                return arg1;
             };
 
     private Function<List<Number>, Number> plus1float =
             args -> {
                 float arg1 = args.get(0).floatValue();
-                float arg2 = args.get(1).floatValue();
-                return arg1 + arg2;
+                return arg1;
             };
 
     private Function<List<Number>, Number> plus2int =
@@ -48,14 +47,13 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     private Function<List<Number>, Number> minus1float =
             args -> {
                 float arg1 = args.get(0).floatValue();
-                float arg2 = args.get(1).floatValue();
-                return arg1 - arg2;
+                return -arg1;
             };
     private Function<List<Number>, Number> minus1int =
             args -> {
                 int arg1 = args.get(0).intValue();
-                int arg2 = args.get(1).intValue();
-                return arg1 - arg2;
+
+                return -arg1 ;
             };
     private Function<List<Number>, Number> minus2float =
             args -> {
@@ -181,9 +179,8 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     @Override
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
-
-
-        //assignment 6b
+        /* TODO Assignment 6b:
+         */
         var expression = values.get(whileLoop.expression);
         while (expression.intValue() >= 0) {
             whileLoop.statement.accept(this);
@@ -192,8 +189,6 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
 
 
-        /* TODO Assignment 6b:
-         */
 //        Number value = values.get(WhileLoop.condition);
 //        while(value != null && value.intValue()>=0){
 //            whileLoop.body.accept(this);
@@ -252,7 +247,6 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             }
             args.add(arg);
         }
-
         Number result = function.apply(args);
         values.put(operatorExpression, result);
     }

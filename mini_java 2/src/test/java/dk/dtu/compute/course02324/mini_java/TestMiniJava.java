@@ -5,6 +5,7 @@ import dk.dtu.compute.course02324.mini_java.semantics.*;
 
 import static dk.dtu.compute.course02324.mini_java.utils.Shortcuts.*;
 import static dk.dtu.compute.course02324.mini_java.model.Operator.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * These are some basic tests of the MiniJava for computing the types and
@@ -342,5 +340,18 @@ public class TestMiniJava{
         }
         assertEquals(0, variables.size(), "Some variables have not been evaluated");
     }
+    @Test
+    public void testWhileLoopConditionNotIntType() {
+        Statement statement = Sequence(
+                Declaration(FLOAT, Var("f"),Literal(1.5f)),
+                WhileLoop( Var("f"),
+                        PrintStatement("Invalid loop", Literal(0))
 
+                )
+        );
+        ptv.visit(statement);
+
+        assertFalse(ptv.problems.isEmpty(),"Expected a type error for non-int while condition, but found none.");
+        assertTrue(ptv.problems.contains("Expression is not of type integer"),"Expected specific error message for non-integer while loop condition.");
+    }
 }

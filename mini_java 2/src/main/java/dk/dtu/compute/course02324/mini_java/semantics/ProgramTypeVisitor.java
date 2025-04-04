@@ -81,17 +81,14 @@ public class ProgramTypeVisitor extends ProgramVisitor {
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
 
+        /* TODO Assignment 6b
+         */
 
         //Validates the while loop's expression is of type Integer
         var expression = typeMapping.get(whileLoop.expression);
         if(!(expression.toString().equals("INT"))){
             problems.add("Expression is not of type integer");
         }
-
-        /* TODO Assignment 6b
-         */
-
-
 
         whileLoop.statement.accept(this);
     }

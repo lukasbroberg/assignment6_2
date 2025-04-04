@@ -18,6 +18,15 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     final private ProgramTypeVisitor pv;
 
     final public Map<Expression, Number> values = new HashMap<>();
+    private Function<List<Number>,Number> plus1int =
+            args -> { int arg1 = args.get(0).intValue();
+                int arg2 = args.get(1).intValue();
+                return arg1 + arg2; };
+
+    private Function<List<Number>,Number> plus1float =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 + arg2; };
 
     private Function<List<Number>,Number> plus2int =
             args -> { int arg1 = args.get(0).intValue();
@@ -28,16 +37,44 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
             args -> { float arg1 = args.get(0).floatValue();
                       float arg2 = args.get(1).floatValue();
                       return arg1 + arg2; };
-
+    private Function<List<Number>,Number> minus1float =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 - arg2; };
+    private Function<List<Number>,Number> minus1int =
+            args -> { float arg1 = args.get(0).intValue();
+                float arg2 = args.get(1).intValue();
+                return arg1 - arg2; };
     private Function<List<Number>,Number> minus2float =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
+                return arg1 - arg2; };
+    private Function<List<Number>,Number> minus2int =
+            args -> { float arg1 = args.get(0).intValue();
+                float arg2 = args.get(1).intValue();
                 return arg1 - arg2; };
 
     private Function<List<Number>,Number> multfloat =
             args -> { float arg1 = args.get(0).floatValue();
                 float arg2 = args.get(1).floatValue();
                 return arg1 * arg2; };
+    private Function<List<Number>,Number> multint =
+            args -> { float arg1 = args.get(0).intValue();
+                float arg2 = args.get(1).intValue();
+                return arg1 * arg2; };
+    private Function<List<Number>,Number> divint =
+            args -> { float arg1 = args.get(0).intValue();
+                float arg2 = args.get(1).intValue();
+                return arg1 / arg2; };
+    private Function<List<Number>,Number> divfloat =
+            args -> { float arg1 = args.get(0).floatValue();
+                float arg2 = args.get(1).floatValue();
+                return arg1 / arg2; };
+    private Function<List<Number>,Number> modint =
+            args -> { float arg1 = args.get(0).intValue();
+                float arg2 = args.get(1).intValue();
+                return arg1 % arg2; };
+
 
     /**
      * The map below associates each operator for each possible type with a function
@@ -49,16 +86,33 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
      *      and added to the mapping below).
      */
     final private Map<Operator, Map<Type, Function<List<Number>,Number>>> operatorFunctions = Map.ofEntries(
+            entry(PLUS1, Map.ofEntries(
+                    entry(INT, plus1int),
+                    entry(FLOAT, plus1float) )
+            ),
             entry(PLUS2, Map.ofEntries(
                     entry(INT, plus2int),
                     entry(FLOAT, plus2float) )
+
+            ),entry(MINUS1, Map.ofEntries(
+                    entry(FLOAT, minus1float),
+                    entry(INT, minus1int))
             ),
             entry(MINUS2, Map.ofEntries(
-                    entry(FLOAT, minus2float) )
+                    entry(FLOAT, minus2float),
+                    entry(INT, minus2int))
             ),
             entry(MULT, Map.ofEntries(
-                    entry(FLOAT, multfloat) )
-            ));
+                    entry(FLOAT, multfloat) ,
+                    entry(INT, multint))
+            ),entry(DIV, Map.ofEntries(
+                    entry(FLOAT, divfloat ),
+                    entry(INT,divint))
+            ),
+            entry(MOD, Map.of(
+                    INT, modint
+            ))
+    );
 
     public ProgramExecutorVisitor(ProgramTypeVisitor pv) {
         this.pv = pv;
@@ -100,6 +154,7 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
     public void visit(WhileLoop whileLoop) {
         whileLoop.expression.accept(this);
 
+
        //assignment 6b
         var expression = values.get(whileLoop.expression);
         while(expression.intValue()>=0){
@@ -109,8 +164,17 @@ public class ProgramExecutorVisitor extends ProgramVisitor {
         }
 
 
+        /* TODO Assignment 6b:
+         */
+//        Number value = values.get(WhileLoop.condition);
+//        while(value != null && value.intValue()>=0){
+//            whileLoop.body.accept(this);
+//            whileLoop.condition.accept(this);
+//            value = values.get(whileLoop.condition);
 
-    }
+        }
+
+
 
     @Override
     public void visit(Assignment assignment) {

@@ -126,7 +126,17 @@ public class MiniJavaRun {
                 )
             )
         );
-
+//// int i =5;
+//    while(i)    {
+//        int j =i;
+//        while(j){
+//            j =j-1;
+//            i=i;
+//            j=j;
+//        }
+//        i=i-1;
+//
+//    }
         printTypeEvaluate(whileLoops);
 
 
@@ -299,6 +309,12 @@ public class MiniJavaRun {
                                         ))
                 )
         );
+
+//        // testing whileloop
+//        Statement whileExample = Sequence(
+//                new Declaration(INT, new Var("i"), Literal(3)),
+//
+//        )
     }
 
 }
